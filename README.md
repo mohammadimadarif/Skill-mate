@@ -12,6 +12,8 @@ Tech Stack
 Frontend: HTML, CSS, JavaScript
 Backend: Python (Flask)
 Machine Learning: Scikit-learn (TF-IDF, Cosine Similarity)
+
+
 Data Storage: CSV file (hack.csv)
 Installation
 Prerequisites
@@ -27,6 +29,8 @@ Install dependencies:
 pip install flask pandas scikit-learn
 Run the application:
 python app.py
+
+
 Open your browser and go to:
 http://127.0.0.1:5000/
 Project Structure
@@ -39,6 +43,8 @@ SkillMate/
 │-- README.md            # Project documentation
 API Endpoint
 /recommend (POST)
+
+
 Request:
 skill: The skill name entered by the user.
 Response:
@@ -52,6 +58,7 @@ Improve frontend with React or Vue.js.
 Add user authentication for personalized recommendations.
 License
 This project is licensed under the MIT License.
+
 
 Contributing
 Feel free to contribute by forking the repository and submitting pull requests! Add your details and information........
