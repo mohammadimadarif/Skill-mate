@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillMate</title>
+  <style>
+    /* Your existing CSS styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #3a6073, #16222A); color: #fff; }
+    .navbar { position: fixed; top: 0; width: 100%; padding: 1.5rem 2rem; background-color: #1C1C1E; text-align: left; font-size: 1.8rem; font-weight: bold; }
+    .container { text-align: center; margin-top: 100px; }
+    .search-bar { display: flex; flex-direction: column; align-items: center; margin-top: 60px; }
+    .search-bar input { padding: 1rem; width: 350px; border: none; border-radius: 25px; outline: none; text-align: center; background: rgba(255, 255, 255, 0.2); color: #fff; }
+    .search-bar button { margin-top: 20px; padding: 0.8rem 2rem; border: none; background-color: #000; color: white; border-radius: 25px; cursor: pointer; }
+    .output-box { margin-top: 50px; width: 80%; max-width: 600px; padding: 1rem; border-radius: 20px; background-color: rgba(255, 255, 255, 0.1); color: white; font-size: 1.2rem; }
+  </style>
+</head>
+<body>
+  <div class="navbar">SkillMate</div>
+  <div class="container">
+    <h1>Find the skills you need</h1>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Enter the Skill">
+      <button onclick="searchSkill()">Search</button>
+    </div>
+    <div class="output-box" id="outputBox">Your search query will appear here...</div>
+  </div>
+
+  <script>
+    async function searchSkill() {
+      const searchValue = document.getElementById("searchInput").value;
+      const outputBox = document.getElementById("outputBox");
+
+      if (searchValue) {
+        const response = await fetch('/recommend', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `skill=${encodeURIComponent(searchValue)}`
+        });
+
+        const data = await response.json();
+        
+        if (data.error) {
+          outputBox.textContent = data.error;
+        } else {
+          outputBox.innerHTML = "<h2>Top Recommendations:</h2>";
+          data.recommendations.forEach((rec, index) => {
+            outputBox.innerHTML += `<h3>${index + 1}. ${rec.Skill} (Similarity Score: ${rec.Similarity_Score})</h3>
+                                    <p>Related Skills: ${rec.Related_Skills}</p>
+                                    <p>Explanation: ${rec.Explanation}</p>
+                                    <p>Popularity Trend: ${rec.Popularity_Trend}</p>
+                                    <p>Industry Focus: ${rec.Industry_Focus}</p>
+                                    <p>Recommended Resources: ${rec.Resources}</p>`;
+          });
+        }
+      } else {
+        outputBox.textContent = "Please enter a title before searching.";
+      }
+    }
+  </script>
+</body>
+</html>
